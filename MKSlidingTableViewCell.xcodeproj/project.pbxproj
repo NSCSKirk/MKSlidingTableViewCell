@@ -19,22 +19,8 @@
 		1E067DC717BD947C00175ED7 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E067DC517BD947C00175ED7 /* MainStoryboard_iPhone.storyboard */; };
 		1E067DCA17BD947C00175ED7 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E067DC817BD947C00175ED7 /* MainStoryboard_iPad.storyboard */; };
 		1E067DCD17BD947C00175ED7 /* MKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E067DCC17BD947C00175ED7 /* MKViewController.m */; };
-		1E067DD517BD947C00175ED7 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E067DD417BD947C00175ED7 /* SenTestingKit.framework */; };
-		1E067DD617BD947C00175ED7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E067DAD17BD947C00175ED7 /* UIKit.framework */; };
-		1E067DD717BD947C00175ED7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E067DAF17BD947C00175ED7 /* Foundation.framework */; };
-		1E067DDF17BD947C00175ED7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1E067DDD17BD947C00175ED7 /* InfoPlist.strings */; };
-		1E067DE217BD947D00175ED7 /* MKSlidingTableViewCellTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E067DE117BD947D00175ED7 /* MKSlidingTableViewCellTests.m */; };
+		1E067DEE17BD950200175ED7 /* MKSlidingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E067DED17BD950200175ED7 /* MKSlidingTableViewCell.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		1E067DD817BD947C00175ED7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1E067DA217BD947C00175ED7 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1E067DA917BD947C00175ED7;
-			remoteInfo = MKSlidingTableViewCell;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1E067DAA17BD947C00175ED7 /* MKSlidingTableViewCell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MKSlidingTableViewCell.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,12 +40,8 @@
 		1E067DC917BD947C00175ED7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		1E067DCB17BD947C00175ED7 /* MKViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKViewController.h; sourceTree = "<group>"; };
 		1E067DCC17BD947C00175ED7 /* MKViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MKViewController.m; sourceTree = "<group>"; };
-		1E067DD317BD947C00175ED7 /* MKSlidingTableViewCellTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MKSlidingTableViewCellTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1E067DD417BD947C00175ED7 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		1E067DDC17BD947C00175ED7 /* MKSlidingTableViewCellTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MKSlidingTableViewCellTests-Info.plist"; sourceTree = "<group>"; };
-		1E067DDE17BD947C00175ED7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1E067DE017BD947D00175ED7 /* MKSlidingTableViewCellTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MKSlidingTableViewCellTests.h; sourceTree = "<group>"; };
-		1E067DE117BD947D00175ED7 /* MKSlidingTableViewCellTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MKSlidingTableViewCellTests.m; sourceTree = "<group>"; };
+		1E067DEC17BD950200175ED7 /* MKSlidingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKSlidingTableViewCell.h; sourceTree = "<group>"; };
+		1E067DED17BD950200175ED7 /* MKSlidingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKSlidingTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,16 +55,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1E067DCF17BD947C00175ED7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1E067DD517BD947C00175ED7 /* SenTestingKit.framework in Frameworks */,
-				1E067DD617BD947C00175ED7 /* UIKit.framework in Frameworks */,
-				1E067DD717BD947C00175ED7 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -90,7 +62,6 @@
 			isa = PBXGroup;
 			children = (
 				1E067DB317BD947C00175ED7 /* MKSlidingTableViewCell */,
-				1E067DDA17BD947C00175ED7 /* MKSlidingTableViewCellTests */,
 				1E067DAC17BD947C00175ED7 /* Frameworks */,
 				1E067DAB17BD947C00175ED7 /* Products */,
 			);
@@ -100,7 +71,6 @@
 			isa = PBXGroup;
 			children = (
 				1E067DAA17BD947C00175ED7 /* MKSlidingTableViewCell.app */,
-				1E067DD317BD947C00175ED7 /* MKSlidingTableViewCellTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -111,7 +81,6 @@
 				1E067DAD17BD947C00175ED7 /* UIKit.framework */,
 				1E067DAF17BD947C00175ED7 /* Foundation.framework */,
 				1E067DB117BD947C00175ED7 /* CoreGraphics.framework */,
-				1E067DD417BD947C00175ED7 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -126,6 +95,8 @@
 				1E067DCB17BD947C00175ED7 /* MKViewController.h */,
 				1E067DCC17BD947C00175ED7 /* MKViewController.m */,
 				1E067DB417BD947C00175ED7 /* Supporting Files */,
+				1E067DEC17BD950200175ED7 /* MKSlidingTableViewCell.h */,
+				1E067DED17BD950200175ED7 /* MKSlidingTableViewCell.m */,
 			);
 			path = MKSlidingTableViewCell;
 			sourceTree = "<group>";
@@ -140,25 +111,6 @@
 				1E067DBF17BD947C00175ED7 /* Default.png */,
 				1E067DC117BD947C00175ED7 /* Default@2x.png */,
 				1E067DC317BD947C00175ED7 /* Default-568h@2x.png */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		1E067DDA17BD947C00175ED7 /* MKSlidingTableViewCellTests */ = {
-			isa = PBXGroup;
-			children = (
-				1E067DE017BD947D00175ED7 /* MKSlidingTableViewCellTests.h */,
-				1E067DE117BD947D00175ED7 /* MKSlidingTableViewCellTests.m */,
-				1E067DDB17BD947C00175ED7 /* Supporting Files */,
-			);
-			path = MKSlidingTableViewCellTests;
-			sourceTree = "<group>";
-		};
-		1E067DDB17BD947C00175ED7 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				1E067DDC17BD947C00175ED7 /* MKSlidingTableViewCellTests-Info.plist */,
-				1E067DDD17BD947C00175ED7 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -183,25 +135,6 @@
 			productReference = 1E067DAA17BD947C00175ED7 /* MKSlidingTableViewCell.app */;
 			productType = "com.apple.product-type.application";
 		};
-		1E067DD217BD947C00175ED7 /* MKSlidingTableViewCellTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1E067DE817BD947D00175ED7 /* Build configuration list for PBXNativeTarget "MKSlidingTableViewCellTests" */;
-			buildPhases = (
-				1E067DCE17BD947C00175ED7 /* Sources */,
-				1E067DCF17BD947C00175ED7 /* Frameworks */,
-				1E067DD017BD947C00175ED7 /* Resources */,
-				1E067DD117BD947C00175ED7 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				1E067DD917BD947C00175ED7 /* PBXTargetDependency */,
-			);
-			name = MKSlidingTableViewCellTests;
-			productName = MKSlidingTableViewCellTests;
-			productReference = 1E067DD317BD947C00175ED7 /* MKSlidingTableViewCellTests.octest */;
-			productType = "com.apple.product-type.bundle";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -225,7 +158,6 @@
 			projectRoot = "";
 			targets = (
 				1E067DA917BD947C00175ED7 /* MKSlidingTableViewCell */,
-				1E067DD217BD947C00175ED7 /* MKSlidingTableViewCellTests */,
 			);
 		};
 /* End PBXProject section */
@@ -244,31 +176,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1E067DD017BD947C00175ED7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1E067DDF17BD947C00175ED7 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		1E067DD117BD947C00175ED7 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1E067DA617BD947C00175ED7 /* Sources */ = {
@@ -278,26 +186,11 @@
 				1E067DBA17BD947C00175ED7 /* main.m in Sources */,
 				1E067DBE17BD947C00175ED7 /* MKAppDelegate.m in Sources */,
 				1E067DCD17BD947C00175ED7 /* MKViewController.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1E067DCE17BD947C00175ED7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1E067DE217BD947D00175ED7 /* MKSlidingTableViewCellTests.m in Sources */,
+				1E067DEE17BD950200175ED7 /* MKSlidingTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		1E067DD917BD947C00175ED7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1E067DA917BD947C00175ED7 /* MKSlidingTableViewCell */;
-			targetProxy = 1E067DD817BD947C00175ED7 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		1E067DB617BD947C00175ED7 /* InfoPlist.strings */ = {
@@ -322,14 +215,6 @@
 				1E067DC917BD947C00175ED7 /* en */,
 			);
 			name = MainStoryboard_iPad.storyboard;
-			sourceTree = "<group>";
-		};
-		1E067DDD17BD947C00175ED7 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1E067DDE17BD947C00175ED7 /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -415,40 +300,6 @@
 			};
 			name = Release;
 		};
-		1E067DE917BD947D00175ED7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MKSlidingTableViewCell.app/MKSlidingTableViewCell";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MKSlidingTableViewCell/MKSlidingTableViewCell-Prefix.pch";
-				INFOPLIST_FILE = "MKSlidingTableViewCellTests/MKSlidingTableViewCellTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Debug;
-		};
-		1E067DEA17BD947D00175ED7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/MKSlidingTableViewCell.app/MKSlidingTableViewCell";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MKSlidingTableViewCell/MKSlidingTableViewCell-Prefix.pch";
-				INFOPLIST_FILE = "MKSlidingTableViewCellTests/MKSlidingTableViewCellTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -466,14 +317,6 @@
 			buildConfigurations = (
 				1E067DE617BD947D00175ED7 /* Debug */,
 				1E067DE717BD947D00175ED7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-		};
-		1E067DE817BD947D00175ED7 /* Build configuration list for PBXNativeTarget "MKSlidingTableViewCellTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1E067DE917BD947D00175ED7 /* Debug */,
-				1E067DEA17BD947D00175ED7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

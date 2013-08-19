@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MKViewController : UIViewController
+@interface MKViewController : UIViewController<UITableViewDataSource>
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
