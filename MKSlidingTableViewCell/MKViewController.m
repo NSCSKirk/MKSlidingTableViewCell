@@ -9,7 +9,7 @@
 #import "MKViewController.h"
 #import "MKSlidingTableViewCell.h"
 
-@interface MKViewController () <MKSlidingTableViewCellDelegate>
+@interface MKViewController ()
 @property (nonatomic, copy) NSArray *data;
 @property (nonatomic, strong) MKSlidingTableViewCell *activeCell;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
@@ -50,17 +50,10 @@
     
     cell.foregroundView = foregroundCell;
     cell.drawerView = backgroundCell;
-    cell.delegate = self;
     
     foregroundCell.textLabel.text = self.data[indexPath.row];
     
     return cell;
-}
-
-- (NSArray *)subviewsForDrawerViewInCell:(MKSlidingTableViewCell *)cell
-{
-    UITableViewCell *backgroundCell = (UITableViewCell *)cell.drawerView;
-    return backgroundCell.contentView.subviews;
 }
 
 - (void)willRevealDrawerViewForCell:(NSNotification *)notification

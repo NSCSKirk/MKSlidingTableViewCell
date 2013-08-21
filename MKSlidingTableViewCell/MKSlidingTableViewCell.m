@@ -125,7 +125,7 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 - (void)handlePanEnd
 {
     CGFloat containerRightEdge = CGRectGetMaxX(self.container.frame);
-    CGFloat drawerLeftSubviewEdge = [self drawerViewLeftMostSubviewEdge];
+    CGFloat drawerLeftSubviewEdge = [self drawerLeftBoundary];
     CGFloat drawerMiddle = [self drawerSubviewMiddleFromLeftEdge:drawerLeftSubviewEdge];
     
     if (containerRightEdge < drawerMiddle)
@@ -135,6 +135,18 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
     else
     {
         [self animateContainerToOriginalPosition];
+    }
+}
+
+- (CGFloat)drawerLeftBoundary
+{
+    if ([self.drawerView isKindOfClass:[UITableViewCell class]])
+    {
+        return [self drawerViewLeftMostSubviewEdge];
+    }
+    else
+    {
+        return CGRectGetMinX(self.drawerView.frame);
     }
 }
 
@@ -153,14 +165,8 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 
 - (NSArray *)drawerSubviews
 {
-    if ([self.delegate respondsToSelector:@selector(subviewsForDrawerViewInCell:)])
-    {
-        return [self.delegate subviewsForDrawerViewInCell:self];
-    }
-    else
-    {
-        return self.drawerView.subviews;
-    }
+    UITableViewCell *cell = (UITableViewCell *)self.drawerView;
+    return cell.contentView.subviews;
 }
 
 - (CGFloat)drawerSubviewMiddleFromLeftEdge:(CGFloat)drawerLeftSubviewEdge
