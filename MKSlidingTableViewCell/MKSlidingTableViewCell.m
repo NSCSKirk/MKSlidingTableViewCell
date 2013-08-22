@@ -128,7 +128,11 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
     CGFloat drawerLeftSubviewEdge = [self drawerLeftBoundary];
     CGFloat drawerMiddle = [self drawerSubviewMiddleFromLeftEdge:drawerLeftSubviewEdge];
     
-    if (containerRightEdge < drawerMiddle)
+    if (containerRightEdge < drawerMiddle && containerRightEdge < drawerLeftSubviewEdge)
+    {
+        [self animateContainerToDrawerLeftEdgeWithBounce:drawerLeftSubviewEdge];
+    }
+    else if (containerRightEdge < drawerMiddle && containerRightEdge > drawerLeftSubviewEdge)
     {
         [self animateContainerToDrawerLeftEdge:drawerLeftSubviewEdge];
     }
@@ -176,6 +180,30 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
     CGFloat drawerMiddle = drawerLeftSubviewEdge + (drawerWidth / 2);
     
     return drawerMiddle;
+}
+
+- (void)animateContainerToDrawerLeftEdgeWithBounce:(CGFloat)drawerLeftEdge
+{
+    CGFloat damping = 0.6;
+    CGFloat velocityX = [self.panGestureRecognizer velocityInView:self].x;
+    CGFloat velocityByPoints = 320.0/ABS(velocityX);
+    CGFloat pointsPerSecond = ABS(velocityX)/60;
+    
+    if (velocityByPoints < 0.3)
+    {
+        [UIView animateWithDuration:velocityByPoints * damping delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            CGFloat currentX = self.container.center.x;
+            CGFloat newX = currentX - pointsPerSecond;
+            CGPoint newCenter = CGPointMake(newX, self.container.center.y);
+            self.container.center = newCenter;
+        } completion:^(BOOL finished) {
+            [self animateContainerToDrawerLeftEdge:drawerLeftEdge];
+        }];
+    }
+    else
+    {
+        [self animateContainerToDrawerLeftEdge:drawerLeftEdge];
+    }
 }
 
 - (void)animateContainerToDrawerLeftEdge:(CGFloat)drawerLeftEdge
