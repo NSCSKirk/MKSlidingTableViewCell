@@ -46,6 +46,7 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
     
     self.container = [[UIView alloc] initWithFrame:self.frame];
     self.open = NO;
+    self.drawerRevealAmount = 0.0;
 }
 
 #pragma mark - Custom Setters
@@ -144,7 +145,11 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 
 - (CGFloat)drawerLeftBoundary
 {
-    if ([self.drawerView isKindOfClass:[UITableViewCell class]])
+    if (self.drawerRevealAmount != 0)
+    {
+        return CGRectGetWidth(self.frame) - self.drawerRevealAmount;
+    }
+    else if ([self.drawerView isKindOfClass:[UITableViewCell class]])
     {
         return [self drawerViewLeftMostSubviewEdge];
     }
