@@ -95,8 +95,7 @@
 				1E067DCB17BD947C00175ED7 /* MKViewController.h */,
 				1E067DCC17BD947C00175ED7 /* MKViewController.m */,
 				1E067DB417BD947C00175ED7 /* Supporting Files */,
-				1E067DEC17BD950200175ED7 /* MKSlidingTableViewCell.h */,
-				1E067DED17BD950200175ED7 /* MKSlidingTableViewCell.m */,
+				1EB6AA6117CC5DC6006688EB /* Source */,
 			);
 			path = MKSlidingTableViewCell;
 			sourceTree = "<group>";
@@ -113,6 +112,15 @@
 				1E067DC317BD947C00175ED7 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1EB6AA6117CC5DC6006688EB /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				1E067DEC17BD950200175ED7 /* MKSlidingTableViewCell.h */,
+				1E067DED17BD950200175ED7 /* MKSlidingTableViewCell.m */,
+			);
+			path = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -319,6 +327,7 @@
 				1E067DE717BD947D00175ED7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
