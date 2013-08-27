@@ -11,9 +11,8 @@
 NSString * const MKDrawerWillOpenNotification = @"MKDrawerWillOpenNotification";
 NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 
-@interface MKSlidingTableViewCell () <UIGestureRecognizerDelegate>
-@property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
-@property (nonatomic, strong) UIView *container;
+@interface MKSlidingTableViewCell () <UIScrollViewDelegate>
+@property (nonatomic, strong) UIScrollView *containerScrollView;
 @property (nonatomic, getter = isOpen) BOOL open;
 @end
 
@@ -40,199 +39,148 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 
 - (void)initializeCell
 {
-    self.panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
-    self.panGestureRecognizer.delegate = self;
-    [self addGestureRecognizer:self.panGestureRecognizer];
-    
-    self.container = [[UIView alloc] initWithFrame:self.frame];
     self.open = NO;
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    [self layoutContainerScrollView];
+    [self layoutDrawerView];
+    [self layoutForegroundView];
+}
+
+- (void)layoutContainerScrollView
+{
+    CGRect scrollViewRect = CGRectMake(0, 0, 320, CGRectGetHeight(self.bounds));
+    CGSize scrollViewContentSize = CGSizeMake(CGRectGetWidth(self.bounds) + self.drawerRevealAmount, CGRectGetHeight(self.bounds));
+    UIScrollView *containerScrollView = [[UIScrollView alloc] initWithFrame:scrollViewRect];
+    
+    containerScrollView.contentSize = scrollViewContentSize;
+    containerScrollView.delegate = self;
+    containerScrollView.showsHorizontalScrollIndicator = NO;
+    containerScrollView.decelerationRate = UIScrollViewDecelerationRateFast;
+    self.containerScrollView = containerScrollView;
+    
+    [self.contentView addSubview:containerScrollView];
+}
+
+- (void)layoutForegroundView
+{
+    self.containerScrollView.backgroundColor = self.backgroundColor;
+    
+    CGRect foregroundRect = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
+    self.foregroundView.frame = foregroundRect;
+    
+    [self.containerScrollView addSubview:self.foregroundView];
+}
+
+- (void)layoutDrawerView
+{
+    CGRect drawerRect = CGRectMake(CGRectGetWidth(self.bounds) - self.drawerRevealAmount, 0, self.drawerRevealAmount, CGRectGetHeight(self.bounds));
+    self.drawerView.frame = drawerRect;
+    
+    [self.containerScrollView addSubview:self.drawerView];
+}
+
 #pragma mark - Custom Setters
+
+- (void)setContainerScrollView:(UIScrollView *)containerScrollView
+{
+    [self.containerScrollView removeFromSuperview];
+    _containerScrollView = containerScrollView;
+}
+
+- (void)setDrawerView:(UIView *)drawerView
+{
+    [self.drawerView removeFromSuperview];
+    _drawerView = drawerView;
+    [self setNeedsLayout];
+}
 
 - (void)setForegroundView:(UITableViewCell *)foregroundView
 {
     [_foregroundView removeFromSuperview];
     _foregroundView = foregroundView;
-    
-    self.container.backgroundColor = self.backgroundColor;
-    
-    [self.container addSubview:foregroundView];
-    [self.contentView addSubview:self.container];
+    [self setNeedsLayout];
 }
 
-#pragma mark - UIGestureRecognizer Methods
-
-- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)panRecognizer
+- (void)setDrawerRevealAmount:(CGFloat)drawerRevealAmount
 {
-    if ([panRecognizer respondsToSelector:@selector(velocityInView:)] == NO)
-    {
-        return [super gestureRecognizerShouldBegin:panRecognizer];
-    }
-    
-    CGPoint velocity = [panRecognizer velocityInView:self];
-    return ABS(velocity.x) > ABS(velocity.y); // Horizontal panning
+    _drawerRevealAmount = drawerRevealAmount;
+    [self setNeedsLayout];
 }
 
-- (void)handlePanGesture:(UIPanGestureRecognizer *)sender
-{    
-    switch (sender.state)
-    {
-        case UIGestureRecognizerStateBegan:
-            [self handlePanBegin];
-            break;
-        case UIGestureRecognizerStateChanged:
-            [self handlePanUpdate];
-            break;
-        case UIGestureRecognizerStateEnded:
-            [self handlePanEnd];
-            break;
-        default:
-            break;
-    }
-}
+#pragma mark - UIScrollViewDelegate Methods
 
-- (void)handlePanBegin
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    CGPoint drawerPoint = CGPointMake(self.frame.size.width - self.drawerView.frame.size.width, 0);
-    CGRect drawerRect = CGRectMake(drawerPoint.x, drawerPoint.y, self.drawerView.frame.size.width, self.frame.size.height);
-    
-    self.drawerView.frame = drawerRect;
-    [self.contentView insertSubview:self.drawerView belowSubview:self.container];
-    
-    if (self.isOpen == NO)
+    if (self.containerScrollView.contentOffset.x < 0)
     {
-        [[NSNotificationCenter defaultCenter] postNotificationName:MKDrawerWillOpenNotification object:self];
+        scrollView.contentOffset = CGPointZero;
     }
+    
+    CGFloat drawerX = scrollView.contentOffset.x + (CGRectGetWidth(self.bounds) - self.drawerRevealAmount);
+    self.drawerView.frame = CGRectMake(drawerX, 0, self.drawerRevealAmount, CGRectGetHeight(self.bounds));
 }
 
-- (void)handlePanUpdate
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    CGPoint translation = [self.panGestureRecognizer translationInView:self];
-    CGPoint contentPosition = self.container.center;
-    
-    contentPosition.x += translation.x;
-    
-    if (contentPosition.x > self.center.x)
+    if (scrollView.contentOffset.x > self.drawerRevealAmount)
     {
-        return;
-    }
-    
-    self.container.center = contentPosition;
-    [self.panGestureRecognizer setTranslation:CGPointZero inView:self];
-}
-
-- (void)handlePanEnd
-{
-    CGFloat containerRightEdge = CGRectGetMaxX(self.container.frame);
-    CGFloat drawerLeftSubviewEdge = [self drawerLeftBoundary];
-    CGFloat drawerMiddle = [self drawerSubviewMiddleFromLeftEdge:drawerLeftSubviewEdge];
-    
-    if (containerRightEdge < drawerMiddle && containerRightEdge < drawerLeftSubviewEdge)
-    {
-        [self animateContainerToDrawerLeftEdgeWithBounce:drawerLeftSubviewEdge];
-    }
-    else if (containerRightEdge < drawerMiddle && containerRightEdge > drawerLeftSubviewEdge)
-    {
-        [self animateContainerToDrawerLeftEdge:drawerLeftSubviewEdge];
+        [self openDrawerWithTargetContentOffset:targetContentOffset];
     }
     else
     {
-        [self animateContainerToOriginalPosition];
+        if (velocity.x > 0.4)
+        {
+            [self openDrawerWithTargetContentOffset:targetContentOffset];
+        }
+        else
+        {
+            *targetContentOffset = CGPointZero;
+            [self postCloseDrawerNotification];
+        }
     }
 }
 
-- (CGFloat)drawerLeftBoundary
+- (void)openDrawerWithTargetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    if ([self.drawerView isKindOfClass:[UITableViewCell class]])
+    if (!self.isOpen)
     {
-        return [self drawerViewLeftMostSubviewEdge];
-    }
-    else
-    {
-        return CGRectGetMinX(self.drawerView.frame);
-    }
-}
-
-- (CGFloat)drawerViewLeftMostSubviewEdge
-{
-    CGFloat leftSubviewEdge = CGRectGetMaxX(self.frame);
-    NSArray *drawerSubviews = [self drawerSubviews];
-    
-    for (UIView *subview in drawerSubviews)
-    {
-        leftSubviewEdge = MIN(leftSubviewEdge, CGRectGetMinX(subview.frame));
-    }
-    
-    return leftSubviewEdge;
-}
-
-- (NSArray *)drawerSubviews
-{
-    UITableViewCell *cell = (UITableViewCell *)self.drawerView;
-    return cell.contentView.subviews;
-}
-
-- (CGFloat)drawerSubviewMiddleFromLeftEdge:(CGFloat)drawerLeftSubviewEdge
-{
-    CGFloat drawerRightEdge = CGRectGetMaxX(self.frame);
-    CGFloat drawerWidth = drawerRightEdge - drawerLeftSubviewEdge;
-    CGFloat drawerMiddle = drawerLeftSubviewEdge + (drawerWidth / 2);
-    
-    return drawerMiddle;
-}
-
-- (void)animateContainerToDrawerLeftEdgeWithBounce:(CGFloat)drawerLeftEdge
-{
-    CGFloat damping = 0.6;
-    CGFloat velocityX = [self.panGestureRecognizer velocityInView:self].x;
-    CGFloat velocityByPoints = 320.0/ABS(velocityX);
-    CGFloat pointsPerSecond = ABS(velocityX)/60;
-    
-    if (velocityByPoints < 0.3)
-    {
-        [UIView animateWithDuration:velocityByPoints * damping delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-            CGFloat currentX = self.container.center.x;
-            CGFloat newX = currentX - pointsPerSecond;
-            CGPoint newCenter = CGPointMake(newX, self.container.center.y);
-            self.container.center = newCenter;
-        } completion:^(BOOL finished) {
-            [self animateContainerToDrawerLeftEdge:drawerLeftEdge];
-        }];
-    }
-    else
-    {
-        [self animateContainerToDrawerLeftEdge:drawerLeftEdge];
-    }
-}
-
-- (void)animateContainerToDrawerLeftEdge:(CGFloat)drawerLeftEdge
-{
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        CGFloat newX = drawerLeftEdge - self.container.frame.size.width / 2;
-        CGPoint newCenter = CGPointMake(newX, self.container.center.y);
-        self.container.center = newCenter;
-    } completion:^(BOOL finished) {
         self.open = YES;
-    }];
+        
+        NSNotification *notification = [NSNotification notificationWithName:MKDrawerWillOpenNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
+    
+    targetContentOffset->x  = self.drawerRevealAmount;
 }
 
-- (void)animateContainerToOriginalPosition
+- (void)postCloseDrawerNotification
 {
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.container.center = CGPointMake(self.center.x, self.contentView.center.y);
-    } completion:^(BOOL finished) {
-        [self.drawerView removeFromSuperview];
+    if (self.isOpen)
+    {
         self.open = NO;
-        [[NSNotificationCenter defaultCenter] postNotificationName:MKDrawerDidCloseNotification object:self];
-    }];
+        
+        NSNotification *notification = [NSNotification notificationWithName:MKDrawerDidCloseNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
+}
+
+- (void)animateDrawerClose
+{
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.containerScrollView.contentOffset = CGPointZero;
+    } completion:nil];
 }
 
 #pragma mark - Public Methods
 
 - (void)closeDrawer
 {
-    [self animateContainerToOriginalPosition];
+    [self animateDrawerClose];
+    [self postCloseDrawerNotification];
 }
 
 @end

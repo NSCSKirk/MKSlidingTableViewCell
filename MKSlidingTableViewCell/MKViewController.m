@@ -22,13 +22,8 @@
     [super viewDidLoad];
     self.data = @[@"1", @"2", @"3", @"4", @"5"];
     self.tableView.dataSource = self;
+    self.tableView.delegate = self;
     [self addObservers];
-}
-
-- (void)setActiveCell:(MKSlidingTableViewCell *)activeCell
-{
-    [_activeCell closeDrawer];
-    _activeCell = activeCell;
 }
 
 - (void)addObservers
@@ -50,16 +45,26 @@
     
     cell.foregroundView = foregroundCell;
     cell.drawerView = backgroundCell;
+    cell.drawerRevealAmount = 146;
     
     foregroundCell.textLabel.text = self.data[indexPath.row];
     
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MKSlidingTableViewCell *cell = (MKSlidingTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *foregroundCell = (UITableViewCell *)cell.foregroundView;
+    
+    NSLog(@"Selected cell with text: %@", foregroundCell.textLabel.text);
+}
+
 - (void)willRevealDrawerViewForCell:(NSNotification *)notification
 {
     MKSlidingTableViewCell *cell = notification.object;
     
+    [self.activeCell closeDrawer];
     self.activeCell = cell;
     self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.tableView addGestureRecognizer:self.tapGestureRecognizer];

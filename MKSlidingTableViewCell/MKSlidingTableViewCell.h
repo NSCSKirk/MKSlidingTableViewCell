@@ -15,6 +15,7 @@ extern NSString * const MKDrawerDidCloseNotification;
 
 @property (nonatomic, strong) UIView *foregroundView;
 @property (nonatomic, strong) UIView *drawerView;
+@property (nonatomic, assign) CGFloat drawerRevealAmount;
 
 - (void)closeDrawer;
 

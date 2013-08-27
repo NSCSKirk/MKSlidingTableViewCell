@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MKViewController : UIViewController<UITableViewDataSource>
+@interface MKViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
