@@ -7,12 +7,13 @@
 //
 
 #import "MKSlidingTableViewCell.h"
+#import "MKTableCellScrollView.h"
 
 NSString * const MKDrawerWillOpenNotification = @"MKDrawerWillOpenNotification";
 NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 
-@interface MKSlidingTableViewCell () <UIScrollViewDelegate>
-@property (nonatomic, strong) UIScrollView *containerScrollView;
+@interface MKSlidingTableViewCell () <UIScrollViewDelegate, MKTableViewCellScrollViewDelegate>
+@property (nonatomic, strong) MKTableCellScrollView *containerScrollView;
 @property (nonatomic, getter = isOpen) BOOL open;
 @end
 
@@ -54,15 +55,24 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 {
     CGRect scrollViewRect = CGRectMake(0, 0, 320, CGRectGetHeight(self.bounds));
     CGSize scrollViewContentSize = CGSizeMake(CGRectGetWidth(self.bounds) + self.drawerRevealAmount, CGRectGetHeight(self.bounds));
-    UIScrollView *containerScrollView = [[UIScrollView alloc] initWithFrame:scrollViewRect];
+    MKTableCellScrollView *containerScrollView = [[MKTableCellScrollView alloc] initWithFrame:scrollViewRect];
     
     containerScrollView.contentSize = scrollViewContentSize;
     containerScrollView.delegate = self;
+    containerScrollView.cellDelegate = self;
     containerScrollView.showsHorizontalScrollIndicator = NO;
     containerScrollView.decelerationRate = UIScrollViewDecelerationRateFast;
     self.containerScrollView = containerScrollView;
     
     [self.contentView addSubview:containerScrollView];
+}
+
+- (void)didTapCellScrollView:(MKTableCellScrollView *)scrollView
+{
+    if ([self.delegate respondsToSelector:@selector(didSelectSlidingTableViewCell:)])
+    {
+        [self.delegate didSelectSlidingTableViewCell:self];
+    }
 }
 
 - (void)layoutForegroundView
@@ -85,7 +95,7 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 
 #pragma mark - Custom Setters
 
-- (void)setContainerScrollView:(UIScrollView *)containerScrollView
+- (void)setContainerScrollView:(MKTableCellScrollView *)containerScrollView
 {
     [self.containerScrollView removeFromSuperview];
     _containerScrollView = containerScrollView;

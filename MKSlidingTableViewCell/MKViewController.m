@@ -9,7 +9,7 @@
 #import "MKViewController.h"
 #import "MKSlidingTableViewCell.h"
 
-@interface MKViewController ()
+@interface MKViewController () <MKSlidingTableViewCellDelegate>
 @property (nonatomic, copy) NSArray *data;
 @property (nonatomic, strong) MKSlidingTableViewCell *activeCell;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
@@ -46,6 +46,7 @@
     cell.foregroundView = foregroundCell;
     cell.drawerView = backgroundCell;
     cell.drawerRevealAmount = 146;
+    cell.delegate = self;
     
     foregroundCell.textLabel.text = self.data[indexPath.row];
     
@@ -58,6 +59,11 @@
     UITableViewCell *foregroundCell = (UITableViewCell *)cell.foregroundView;
     
     NSLog(@"Selected cell with text: %@", foregroundCell.textLabel.text);
+}
+
+- (void)didSelectSlidingTableViewCell:(MKSlidingTableViewCell *)cell
+{
+    NSLog(@"Cell tapped");
 }
 
 - (void)willRevealDrawerViewForCell:(NSNotification *)notification
