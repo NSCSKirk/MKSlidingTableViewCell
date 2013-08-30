@@ -9,7 +9,7 @@
 #import "MKSlidingTableViewCell.h"
 #import "MKTableCellScrollView.h"
 
-NSString * const MKDrawerWillOpenNotification = @"MKDrawerWillOpenNotification";
+NSString * const MKDrawerDidOpenNotification = @"MKDrawerDidOpenNotification";
 NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 
 @interface MKSlidingTableViewCell () <UIScrollViewDelegate, MKTableViewCellScrollViewDelegate>
@@ -136,9 +136,17 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    if (scrollView.contentOffset.x > self.drawerRevealAmount)
+    if (scrollView.contentOffset.x > (self.drawerRevealAmount / 2))
     {
-        [self openDrawerWithTargetContentOffset:targetContentOffset];
+        if (velocity.x < -0.4)
+        {
+            *targetContentOffset = CGPointZero;
+            [self postCloseDrawerNotification];
+        }
+        else
+        {
+            [self openDrawerWithTargetContentOffset:targetContentOffset];
+        }
     }
     else
     {
@@ -160,7 +168,7 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
     {
         self.open = YES;
         
-        NSNotification *notification = [NSNotification notificationWithName:MKDrawerWillOpenNotification object:self];
+        NSNotification *notification = [NSNotification notificationWithName:MKDrawerDidOpenNotification object:self];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
     }
     
@@ -186,6 +194,13 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 }
 
 #pragma mark - Public Methods
+
+- (void)openDrawer
+{
+    [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.containerScrollView.contentOffset = CGPointMake(150, 0);
+    } completion:nil];
+}
 
 - (void)closeDrawer
 {

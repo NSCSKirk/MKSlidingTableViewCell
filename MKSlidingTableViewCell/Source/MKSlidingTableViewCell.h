@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-extern NSString * const MKDrawerWillOpenNotification;
+extern NSString * const MKDrawerDidOpenNotification;
 extern NSString * const MKDrawerDidCloseNotification;
 
 @protocol MKSlidingTableViewCellDelegate;
@@ -20,6 +20,7 @@ extern NSString * const MKDrawerDidCloseNotification;
 @property (nonatomic, strong) UIView *drawerView;
 @property (nonatomic, assign) CGFloat drawerRevealAmount;
 
+- (void)openDrawer;
 - (void)closeDrawer;
 
 @end

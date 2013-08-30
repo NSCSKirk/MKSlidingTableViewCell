@@ -28,7 +28,7 @@
 
 - (void)addObservers
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willRevealDrawerViewForCell:) name:MKDrawerWillOpenNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRevealDrawerViewForCell:) name:MKDrawerDidOpenNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didHideDrawerViewForCell:) name:MKDrawerDidCloseNotification object:nil];
 }
 
@@ -66,7 +66,7 @@
     NSLog(@"Cell tapped");
 }
 
-- (void)willRevealDrawerViewForCell:(NSNotification *)notification
+- (void)didRevealDrawerViewForCell:(NSNotification *)notification
 {
     MKSlidingTableViewCell *cell = notification.object;
     
