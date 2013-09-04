@@ -12,8 +12,9 @@
 NSString * const MKDrawerDidOpenNotification = @"MKDrawerDidOpenNotification";
 NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 
-@interface MKSlidingTableViewCell () <UIScrollViewDelegate, MKTableViewCellScrollViewDelegate>
+@interface MKSlidingTableViewCell () <UIScrollViewDelegate>
 @property (nonatomic, strong) MKTableCellScrollView *containerScrollView;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
 @property (nonatomic, getter = isOpen) BOOL open;
 @end
 
@@ -59,20 +60,11 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
     
     containerScrollView.contentSize = scrollViewContentSize;
     containerScrollView.delegate = self;
-    containerScrollView.cellDelegate = self;
     containerScrollView.showsHorizontalScrollIndicator = NO;
     containerScrollView.decelerationRate = UIScrollViewDecelerationRateFast;
     self.containerScrollView = containerScrollView;
     
     [self.contentView addSubview:containerScrollView];
-}
-
-- (void)didTapCellScrollView:(MKTableCellScrollView *)scrollView
-{
-    if ([self.delegate respondsToSelector:@selector(didSelectSlidingTableViewCell:)])
-    {
-        [self.delegate didSelectSlidingTableViewCell:self];
-    }
 }
 
 - (void)layoutForegroundView
@@ -83,6 +75,24 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
     self.foregroundView.frame = foregroundRect;
     
     [self.containerScrollView addSubview:self.foregroundView];
+    [self addGestureRecognizerToForegroundView];
+}
+
+- (void)addGestureRecognizerToForegroundView
+{
+    [self.foregroundView removeGestureRecognizer:self.tapGestureRecognizer];
+    self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    self.tapGestureRecognizer.numberOfTapsRequired = 1;
+    self.tapGestureRecognizer.numberOfTouchesRequired = 1;
+    [self.foregroundView addGestureRecognizer:self.tapGestureRecognizer];
+}
+
+- (void)handleTap:(UITapGestureRecognizer *)sender
+{
+    if ([self.delegate respondsToSelector:@selector(didSelectSlidingTableViewCell:)])
+    {
+        [self.delegate didSelectSlidingTableViewCell:self];
+    }
 }
 
 - (void)layoutDrawerView

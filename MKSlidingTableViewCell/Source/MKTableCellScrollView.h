@@ -8,14 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol MKTableViewCellScrollViewDelegate;
-
 @interface MKTableCellScrollView : UIScrollView
 
-@property (nonatomic, weak) id<MKTableViewCellScrollViewDelegate> cellDelegate;
-
-@end
-
-@protocol MKTableViewCellScrollViewDelegate <NSObject>
-- (void)didTapCellScrollView:(MKTableCellScrollView *)scrollView;
 @end
