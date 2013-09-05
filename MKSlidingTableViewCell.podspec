@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "MKSlidingTableViewCell"
-  s.version      = "0.0.1"
+  s.version      = "0.0.4"
   s.summary      = "An iOS 6 compatible sliding table view cell that mimics iOS 7 mail."
   s.homepage     = "https://github.com/PublicStaticVoidMain/MKSlidingTableViewCell"
   s.license      = 'MIT'
