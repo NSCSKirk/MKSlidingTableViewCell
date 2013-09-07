@@ -1,7 +1,10 @@
 MKSlidingTableViewCell
 ======================
 
-An iOS 7 style sliding table view cell. By using MKSlidingTableViewCell in your table views you can set any view as the "drawer" view, then set the reveal amount to specify where the scroll view will stick when dragging.
+An iOS 7 style sliding table view cell. By using MKSlidingTableViewCell in your table view you can set any view as the "drawer" view, then set the reveal amount to specify where the scroll view will stick when dragging. Since MKSlidingTableViewCell use a scroll view as the container for the cell's content, as you slide the cell it will track and bounce just as you would expect.  Like the screenshots below, you can mimic iOS 7, or customize it any way you want!
+
+![iOS 7 Mail Style Screenshot](Screenshot1.png)
+![Custom Style Screenshot](Screenshot2.png)
 
 ## Usage
 
