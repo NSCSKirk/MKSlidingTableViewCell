@@ -54,7 +54,7 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 
 - (void)layoutContainerScrollView
 {
-    CGRect scrollViewRect = CGRectMake(0, 0, 320, CGRectGetHeight(self.bounds));
+    CGRect scrollViewRect = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
     CGSize scrollViewContentSize = CGSizeMake(CGRectGetWidth(self.bounds) + self.drawerRevealAmount, CGRectGetHeight(self.bounds));
     MKTableCellScrollView *containerScrollView = [[MKTableCellScrollView alloc] initWithFrame:scrollViewRect];
     
