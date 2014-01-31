@@ -20,7 +20,6 @@
 		1E067DCA17BD947C00175ED7 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E067DC817BD947C00175ED7 /* MainStoryboard_iPad.storyboard */; };
 		1E067DCD17BD947C00175ED7 /* MKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E067DCC17BD947C00175ED7 /* MKViewController.m */; };
 		1E067DEE17BD950200175ED7 /* MKSlidingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E067DED17BD950200175ED7 /* MKSlidingTableViewCell.m */; };
-		1EB6AA8D17CD5AEA006688EB /* MKTableCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB6AA8C17CD5AEA006688EB /* MKTableCellScrollView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,8 +42,6 @@
 		1E067DCC17BD947C00175ED7 /* MKViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MKViewController.m; sourceTree = "<group>"; };
 		1E067DEC17BD950200175ED7 /* MKSlidingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKSlidingTableViewCell.h; sourceTree = "<group>"; };
 		1E067DED17BD950200175ED7 /* MKSlidingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKSlidingTableViewCell.m; sourceTree = "<group>"; };
-		1EB6AA8B17CD5AEA006688EB /* MKTableCellScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKTableCellScrollView.h; sourceTree = "<group>"; };
-		1EB6AA8C17CD5AEA006688EB /* MKTableCellScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKTableCellScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,8 +119,6 @@
 			children = (
 				1E067DEC17BD950200175ED7 /* MKSlidingTableViewCell.h */,
 				1E067DED17BD950200175ED7 /* MKSlidingTableViewCell.m */,
-				1EB6AA8B17CD5AEA006688EB /* MKTableCellScrollView.h */,
-				1EB6AA8C17CD5AEA006688EB /* MKTableCellScrollView.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -200,7 +195,6 @@
 				1E067DBE17BD947C00175ED7 /* MKAppDelegate.m in Sources */,
 				1E067DCD17BD947C00175ED7 /* MKViewController.m in Sources */,
 				1E067DEE17BD950200175ED7 /* MKSlidingTableViewCell.m in Sources */,
-				1EB6AA8D17CD5AEA006688EB /* MKTableCellScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

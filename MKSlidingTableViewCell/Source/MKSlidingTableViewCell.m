@@ -7,13 +7,12 @@
 //
 
 #import "MKSlidingTableViewCell.h"
-#import "MKTableCellScrollView.h"
 
 NSString * const MKDrawerDidOpenNotification = @"MKDrawerDidOpenNotification";
 NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 
 @interface MKSlidingTableViewCell () <UIScrollViewDelegate>
-@property (nonatomic, strong) MKTableCellScrollView *containerScrollView;
+@property (nonatomic, strong) UIScrollView *containerScrollView;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
 @property (nonatomic, getter = isOpen) BOOL open;
 @end
@@ -44,19 +43,33 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
     self.open = NO;
 }
 
+- (void)prepareForReuse
+{
+    self.open = NO;
+}
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
     [self layoutContainerScrollView];
     [self layoutDrawerView];
     [self layoutForegroundView];
+    [self setScrollViewOffsetIfDrawerIsOpen];
+}
+
+- (void)setScrollViewOffsetIfDrawerIsOpen
+{
+    if (self.isOpen)
+    {
+        self.containerScrollView.contentOffset = CGPointMake(self.drawerRevealAmount, 0.0f);
+    }
 }
 
 - (void)layoutContainerScrollView
 {
     CGRect scrollViewRect = CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds));
     CGSize scrollViewContentSize = CGSizeMake(CGRectGetWidth(self.bounds) + self.drawerRevealAmount, CGRectGetHeight(self.bounds));
-    MKTableCellScrollView *containerScrollView = [[MKTableCellScrollView alloc] initWithFrame:scrollViewRect];
+    UIScrollView *containerScrollView = [[UIScrollView alloc] initWithFrame:scrollViewRect];
     
     containerScrollView.contentSize = scrollViewContentSize;
     containerScrollView.delegate = self;
@@ -105,7 +118,7 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 
 #pragma mark - Custom Setters
 
-- (void)setContainerScrollView:(MKTableCellScrollView *)containerScrollView
+- (void)setContainerScrollView:(UIScrollView *)containerScrollView
 {
     [self.containerScrollView removeFromSuperview];
     _containerScrollView = containerScrollView;
@@ -182,7 +195,7 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
         [[NSNotificationCenter defaultCenter] postNotification:notification];
     }
     
-    targetContentOffset->x  = self.drawerRevealAmount;
+    targetContentOffset->x = self.drawerRevealAmount;
 }
 
 - (void)postCloseDrawerNotification
@@ -216,6 +229,20 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 {
     [self animateDrawerClose];
     [self postCloseDrawerNotification];
+}
+
+#pragma mark - Invocation Handling
+
+- (id)forwardingTargetForSelector:(SEL)aSelector
+{
+    if (self.forwardInvocationsToForegroundView)
+    {
+        return self.foregroundView;
+    }
+    else
+    {
+        return [super forwardingTargetForSelector:aSelector];
+    }
 }
 
 @end
