@@ -14,7 +14,6 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 @interface MKSlidingTableViewCell () <UIScrollViewDelegate>
 @property (nonatomic, strong) UIScrollView *containerScrollView;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
-@property (nonatomic, getter = isOpen) BOOL open;
 @end
 
 @implementation MKSlidingTableViewCell
@@ -235,14 +234,7 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 
 - (id)forwardingTargetForSelector:(SEL)aSelector
 {
-    if (self.forwardInvocationsToForegroundView)
-    {
-        return self.foregroundView;
-    }
-    else
-    {
-        return [super forwardingTargetForSelector:aSelector];
-    }
+    return self.foregroundView;
 }
 
 @end
