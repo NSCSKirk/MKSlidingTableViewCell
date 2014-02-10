@@ -212,7 +212,9 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 {
     [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.containerScrollView.contentOffset = CGPointZero;
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        [self postCloseDrawerNotification];
+    }];
 }
 
 #pragma mark - Public Methods
@@ -221,13 +223,14 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 {
     [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.containerScrollView.contentOffset = CGPointMake(150, 0);
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:MKDrawerDidOpenNotification object:self];
+    }];
 }
 
 - (void)closeDrawer
 {
     [self animateDrawerClose];
-    [self postCloseDrawerNotification];
 }
 
 #pragma mark - Invocation Handling
