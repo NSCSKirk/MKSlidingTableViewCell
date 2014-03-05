@@ -163,12 +163,15 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
         if (velocity.x < -0.4)
         {
             *targetContentOffset = CGPointZero;
-            [self postCloseDrawerNotification];
         }
         else
         {
             [self openDrawerWithTargetContentOffset:targetContentOffset];
         }
+    }
+    else if (scrollView.contentOffset.x == 0)
+    {
+        [self postCloseDrawerNotification];
     }
     else
     {
@@ -179,8 +182,15 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
         else
         {
             *targetContentOffset = CGPointZero;
-            [self postCloseDrawerNotification];
         }
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.x == 0)
+    {
+        [self postCloseDrawerNotification];
     }
 }
 
