@@ -70,7 +70,7 @@
 {
     MKSlidingTableViewCell *cell = notification.object;
     
-    [self.activeCell closeDrawer];
+    [self.activeCell closeDrawer:nil];
     self.activeCell = cell;
     self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self.tableView addGestureRecognizer:self.tapGestureRecognizer];
@@ -89,7 +89,7 @@
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)gestureRecognizer
 {
-    [self.activeCell closeDrawer];
+    [self.activeCell closeDrawer:nil];
 }
 
 @end

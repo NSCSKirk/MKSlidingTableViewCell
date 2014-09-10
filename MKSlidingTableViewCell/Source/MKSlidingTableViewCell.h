@@ -23,7 +23,7 @@ extern NSString * const MKDrawerDidCloseNotification;
 @property (nonatomic, assign) BOOL forwardInvocationsToForegroundView;
 
 - (void)openDrawer;
-- (void)closeDrawer;
+- (void)closeDrawer:(void(^)())completion;
 
 @end
 

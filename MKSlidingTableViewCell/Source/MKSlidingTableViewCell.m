@@ -218,12 +218,15 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
     }
 }
 
-- (void)animateDrawerClose
+- (void)animateDrawerClose:(void(^)())completion
 {
     [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.containerScrollView.contentOffset = CGPointZero;
     } completion:^(BOOL finished) {
         [self postCloseDrawerNotification];
+        if (completion) {
+            completion();
+        }
     }];
 }
 
@@ -238,9 +241,9 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
     }];
 }
 
-- (void)closeDrawer
+- (void)closeDrawer:(void(^)())completion
 {
-    [self animateDrawerClose];
+    [self animateDrawerClose:completion];
 }
 
 #pragma mark - Invocation Handling
