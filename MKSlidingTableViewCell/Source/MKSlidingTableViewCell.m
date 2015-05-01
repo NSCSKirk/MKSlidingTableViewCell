@@ -143,6 +143,16 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
     [self setNeedsLayout];
 }
 
+- (void)setOpen:(BOOL)open
+{
+    _open = open;
+    if (open) {
+        [self installCloseDrawerAction];
+    } else {
+        [self installOpenDrawerAction];
+    }
+}
+
 #pragma mark - UIScrollViewDelegate Methods
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -196,15 +206,20 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 
 - (void)openDrawerWithTargetContentOffset:(inout CGPoint *)targetContentOffset
 {
+    targetContentOffset->x = self.drawerRevealAmount;
+    [self postOpenDrawerNotification];
+}
+
+- (void)postOpenDrawerNotification
+{
     if (!self.isOpen)
     {
         self.open = YES;
         
+        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, self);
         NSNotification *notification = [NSNotification notificationWithName:MKDrawerDidOpenNotification object:self];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
     }
-    
-    targetContentOffset->x = self.drawerRevealAmount;
 }
 
 - (void)postCloseDrawerNotification
@@ -213,6 +228,7 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
     {
         self.open = NO;
         
+        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, self);
         NSNotification *notification = [NSNotification notificationWithName:MKDrawerDidCloseNotification object:self];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
     }
@@ -237,8 +253,13 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
     [UIView animateWithDuration:0.4 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.containerScrollView.contentOffset = CGPointMake(150, 0);
     } completion:^(BOOL finished) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:MKDrawerDidOpenNotification object:self];
+        [self postOpenDrawerNotification];
     }];
+}
+
+- (void)closeDrawer
+{
+    [self animateDrawerClose:nil];
 }
 
 - (void)closeDrawer:(void(^)())completion
@@ -251,6 +272,55 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 - (id)forwardingTargetForSelector:(SEL)aSelector
 {
     return self.foregroundView;
+}
+
+#pragma mark - Accessibility
+
+- (NSInteger)accessibilityElementCount
+{
+    return 1;
+}
+
+- (id)accessibilityElementAtIndex:(NSInteger)index
+{
+    if (index == 0) {
+        if (self.open) {
+            return self.drawerView;
+        } else {
+            return self.foregroundView;
+        }
+    }
+    return nil;
+}
+
+- (NSInteger)indexOfAccessibilityElement:(id)element
+{
+    if (element == self.drawerView || element == self.foregroundView) {
+        return 0;
+    }
+    return NSNotFound;
+}
+
+- (void)installOpenDrawerAction
+{
+    // UIAccessibilityCustomAction was just added in iOS 8.
+    if (NSClassFromString(@"UIAccessibilityCustomAction") != nil) {
+        UIAccessibilityCustomAction *action = [[UIAccessibilityCustomAction alloc] initWithName:@"More options"
+                                                                                         target:self
+                                                                                       selector:@selector(openDrawer)];
+        self.accessibilityCustomActions = @[action];
+    }
+}
+
+- (void)installCloseDrawerAction
+{
+    // UIAccessibilityCustomAction was just added in iOS 8.
+    if (NSClassFromString(@"UIAccessibilityCustomAction") != nil) {
+        UIAccessibilityCustomAction *action = [[UIAccessibilityCustomAction alloc] initWithName:@"Fewer options"
+                                                                                         target:self
+                                                                                       selector:@selector(closeDrawer)];
+        self.accessibilityCustomActions = @[action];
+    }
 }
 
 @end
