@@ -304,10 +304,9 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 - (void)installOpenDrawerAction
 {
     // UIAccessibilityCustomAction was just added in iOS 8.
-    if (NSClassFromString(@"UIAccessibilityCustomAction") != nil) {
-        UIAccessibilityCustomAction *action = [[UIAccessibilityCustomAction alloc] initWithName:@"More options"
-                                                                                         target:self
-                                                                                       selector:@selector(openDrawer)];
+    Class accAction = NSClassFromString(@"UIAccessibilityCustomAction");
+    if (accAction) {
+        id action = [[accAction alloc] initWithName:@"More options" target:self selector:@selector(openDrawer)];
         self.accessibilityCustomActions = @[action];
     }
 }
@@ -315,10 +314,9 @@ NSString * const MKDrawerDidCloseNotification = @"MKDrawerDidCloseNotification";
 - (void)installCloseDrawerAction
 {
     // UIAccessibilityCustomAction was just added in iOS 8.
-    if (NSClassFromString(@"UIAccessibilityCustomAction") != nil) {
-        UIAccessibilityCustomAction *action = [[UIAccessibilityCustomAction alloc] initWithName:@"Fewer options"
-                                                                                         target:self
-                                                                                       selector:@selector(closeDrawer)];
+    Class accAction = NSClassFromString(@"UIAccessibilityCustomAction");
+    if (accAction) {
+        id action = [[accAction alloc] initWithName:@"Fewer options" target:self selector:@selector(closeDrawer)];
         self.accessibilityCustomActions = @[action];
     }
 }
